@@ -10,7 +10,7 @@
 <div class="divForm">
          
     <!-- 先将索引写死 -->
-	<form action="http://hdp06:8577ex_gongshang_01v3_kydj/_search" method="get" id="myFormid">  
+	<form action="http://127.0.0.1:9200ex_gongshang_01v3_kydj/_search" method="get" id="myFormid">
 	          请选择检索数据类型:  
 		   <select name="" > <!-- 先不提交该选项 -->
 	         <option th:each="playerRole:${indexList}" th:value="${playerRole}" th:text="${playerRole}" id="indexName"></option>
@@ -93,7 +93,7 @@
 
 <span style="font-size:18px;">
 <script type="text/javascript">
-  action = document.getElementById("myFormid").action="hdp06:8577/";
+  action = document.getElementById("myFormid").action="127.0.0.1:9200/";
 </script></span>
 
 </html>

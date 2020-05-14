@@ -5,17 +5,17 @@ import java.sql.DriverManager;
 
 public class DBHelper {
 
-	public static final String url = "jdbc:mysql://xx.xx.xx.2:3306/test?useSSL=false";
+	public static final String url = "jdbc:mysql://127.0.0.1:3306/yaologos?useSSL=false";
 	public static final String name = "com.mysql.jdbc.Driver";
 	public static final String user = "root";
-	public static final String password = "xxxxx";
+	public static final String password = "keyw89787&*";
 
 	public static Connection conn = null;
 
 	public static Connection getConn() {
 		try {
 			Class.forName(name);
-			conn = DriverManager.getConnection(url, user, password);// »ñÈ¡Á¬½Ó
+			conn = DriverManager.getConnection(url, user, password);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -34,7 +34,7 @@ public class ElasticServiceImpl implements ElasticService{
 	@Override
 	public String createIndex(String indexName) {
 //		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("xx.xx.199.213", 9200, "http")));//初始化
-		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("hdp06", 8577, "http")));// 初始化
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));// 初始化
 		try{
 			// 其实应该先判断是否存在对应的索引，懒得写咯...
 			CreateIndexRequest requestIndex = new CreateIndexRequest(indexName.toLowerCase());// 创建索引
@@ -63,7 +63,7 @@ public class ElasticServiceImpl implements ElasticService{
 	@Override
 	public String deleteIndex(String indexName) {
 //		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("nn01", 9200, "http")));// 初始化
-		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("hdp06", 8577, "http")));// 初始化
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));// 初始化
 		 try{
         DeleteIndexRequest request = new DeleteIndexRequest(indexName);
         request.timeout(TimeValue.timeValueMinutes(20));
@@ -89,7 +89,7 @@ public class ElasticServiceImpl implements ElasticService{
 	@Override
 	public ArrayList<String> getAllIndex() {
 		ArrayList<String> arrList = new ArrayList<String>();
-		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("hdp06", 8577, "http")));// 初始化
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));// 初始化
 		GetIndexRequest request = new GetIndexRequest().indices("_all");
         try{
         	 GetIndexResponse getIndexResponse = client.indices().get(request, RequestOptions.DEFAULT);

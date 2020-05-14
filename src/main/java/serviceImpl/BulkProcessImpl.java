@@ -45,7 +45,7 @@ public class BulkProcessImpl {
 		try {
 //			test();
 			long startTime = System.currentTimeMillis();
-			String tableName = "EX_MINZHENG_02_LHDJ";
+			String tableName = "user";
 //			String tableName = "TBL_ORG";
 			createIndex(tableName);
 			BulkProcessImpl bulk = new BulkProcessImpl();
@@ -60,7 +60,7 @@ public class BulkProcessImpl {
 	}
 
 	public static void createIndex(String indexName) throws IOException {
-		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("hdp06", 8577, "http")));// 初始化
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));// 初始化
 		CreateIndexRequest requestIndex = new CreateIndexRequest(indexName.toLowerCase());// 创建索引
 		// 创建的每个索引都可以有与之关联的特定设置。设置副本数与刷新时间对于索引数据效率有不小的提升
 		requestIndex.settings(Settings.builder().put("index.number_of_shards", 5)
@@ -82,7 +82,7 @@ public class BulkProcessImpl {
 	public void writeMysqlDataToES(String tableName) {
 
 //		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("nn01", 9200, "http")));// 初始化
-		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("hdp06", 8577, "http")));// 初始化
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));// 初始化
 		BulkProcessor bulkProcessor = getBulkProcessor(client);
 
 		Connection conn = null;
@@ -116,8 +116,10 @@ public class BulkProcessImpl {
 					map.put(c, v);
 				}
 				dataList.add(map);
+				System.out.println(dataList);
 				// 每20万条写一次，不足的批次的最后再一并提交
-				if (count % 200000 == 0) {
+				//改为每2条写一次
+				if (count % 2 == 0) {
 					logger.info("Mysql handle data number : " + count);
 					// 写入ES
 					for (HashMap<String, String> hashMap2 : dataList) {
@@ -183,7 +185,7 @@ public class BulkProcessImpl {
 					.bulkAsync(request, RequestOptions.DEFAULT, bulkListener);
 
 			BulkProcessor.Builder builder = BulkProcessor.builder(bulkConsumer, listener);
-			builder.setBulkActions(10000);
+			builder.setBulkActions(2);
 			builder.setBulkSize(new ByteSizeValue(300L, ByteSizeUnit.MB));
 			builder.setConcurrentRequests(10);
 			builder.setFlushInterval(TimeValue.timeValueSeconds(100L));
